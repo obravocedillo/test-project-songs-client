@@ -14,7 +14,7 @@ const songsSlice = createSlice({
     builder.addMatcher(
       songsApi.endpoints.getSongs.matchFulfilled,
       (state, action) => {
-        state.songs = action.payload;
+        state.songs = action.payload.data;
       },
     );
   },
