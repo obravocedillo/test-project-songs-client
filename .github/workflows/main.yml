@@ -31,6 +31,8 @@ jobs:
           tags: obravocedillo/test-project-songs-client:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            VITE_SERVER_URL=${{ secrets.VITE_SERVER_URL }}
 
       - name: Trigger Coolify Deployment
         run: |
