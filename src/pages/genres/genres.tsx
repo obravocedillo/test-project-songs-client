@@ -1,7 +1,7 @@
-import { PrimaryButton } from "../components/buttons/primaryButton";
-import { SimpleTable } from "../components/table/simpleTable";
-import { useGetGenresQuery } from "../store/services/genres";
-import type { IGenre } from "../store/types/genres";
+import { PrimaryButton } from "../../components/buttons/primaryButton";
+import { SimpleTable } from "../../components/table/simpleTable";
+import { useGetGenresQuery } from "../../store/services/genres";
+import type { IGenre } from "../../store/types/genres";
 
 export const Genres = () => {
   const { data: genresResult } = useGetGenresQuery();

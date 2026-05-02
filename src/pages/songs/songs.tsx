@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { PrimaryButton } from "../components/buttons/primaryButton";
-import { PrimaryModal } from "../components/modal/primaryModal";
-import { SimpleTable } from "../components/table/simpleTable";
-import { useGetSongsQuery } from "../store/services/songs";
-import type { ISong } from "../store/types/songs";
+import { PrimaryButton } from "../../components/buttons/primaryButton";
+import { PrimaryModal } from "../../components/modal/primaryModal";
+import { SimpleTable } from "../../components/table/simpleTable";
+import { useGetSongsQuery } from "../../store/services/songs";
+import type { ISong } from "../../store/types/songs";
 
 export const Songs = () => {
   const [isOpen, setIsOpen] = useState(false);
