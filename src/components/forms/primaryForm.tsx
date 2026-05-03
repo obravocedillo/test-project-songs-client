@@ -6,6 +6,7 @@ export interface IPrimaryForm<T extends Record<string, unknown>> {
   initialValues: T;
   validationSchema: Yup.Schema;
   onSubmit: (values: T) => void;
+  submitButtonText?: string;
   children: (formik: FormikProps<T>) => React.ReactNode;
 }
 
@@ -14,6 +15,7 @@ export const PrimaryForm = <T extends Record<string, unknown>>({
   initialValues,
   validationSchema,
   onSubmit,
+  submitButtonText,
   children,
 }: IPrimaryForm<T>) => {
   const handlesFormSubmissions = (values: T) => {
@@ -44,7 +46,7 @@ export const PrimaryForm = <T extends Record<string, unknown>>({
               type="submit"
               className="mt-4 w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 transition-colors cursor-pointer"
             >
-              Submit
+              {submitButtonText ?? "Submit"}
             </button>
           </Form>
         )}

@@ -6,6 +6,8 @@ interface ITableProps<T extends Record<string, any>> {
   data: T[];
   headerActions?: React.ReactNode;
   newItemOnClick?: () => void;
+  editItemOnClick?: (item: T) => void;
+  deleteItemOnClick?: (item: T) => void;
 }
 
 export const SimpleTable = <T extends Record<string, any>>({
@@ -14,6 +16,8 @@ export const SimpleTable = <T extends Record<string, any>>({
   data = [],
   headerActions,
   newItemOnClick,
+  editItemOnClick,
+  deleteItemOnClick,
 }: ITableProps<T>) => {
   const tableHeaders = data[0] && Object.keys(data[0]);
 
@@ -21,6 +25,26 @@ export const SimpleTable = <T extends Record<string, any>>({
     e.preventDefault();
     if (newItemOnClick) {
       newItemOnClick();
+    }
+  };
+
+  const handleDeleteOnClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    item: T,
+  ) => {
+    e.preventDefault();
+    if (deleteItemOnClick) {
+      deleteItemOnClick(item);
+    }
+  };
+
+  const handleEditOnClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    item: T,
+  ) => {
+    e.preventDefault();
+    if (editItemOnClick) {
+      editItemOnClick(item);
     }
   };
 
@@ -53,9 +77,12 @@ export const SimpleTable = <T extends Record<string, any>>({
                           {header}
                         </th>
                       ))}
-                      <th scope="col" className="py-3.5 pr-4 pl-3 sm:pr-6">
-                        <span className="sr-only">Edit</span>
-                      </th>
+
+                      {(editItemOnClick || deleteItemOnClick) && (
+                        <th scope="col" className="py-3.5 pr-4 pl-3 sm:pr-6">
+                          <span className="sr-only">Actions</span>
+                        </th>
+                      )}
                     </tr>
                   </thead>
 
@@ -70,14 +97,29 @@ export const SimpleTable = <T extends Record<string, any>>({
                             {row[header] ?? ""}
                           </td>
                         ))}
+
                         <td className="py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-6">
-                          <a
-                            href="#"
-                            className="text-indigo-600 hover:text-indigo-900"
-                          >
-                            Edit
-                            <span className="sr-only">, {row.id}</span>
-                          </a>
+                          {editItemOnClick && (
+                            <a
+                              className="text-indigo-600 hover:text-indigo-900 cursor-pointer mr-6"
+                              onClick={(e) => {
+                                handleEditOnClick(e, row);
+                              }}
+                            >
+                              Edit
+                            </a>
+                          )}
+
+                          {deleteItemOnClick && (
+                            <a
+                              className="text-red-600 hover:text-red-900 cursor-pointer"
+                              onClick={(e) => {
+                                handleDeleteOnClick(e, row);
+                              }}
+                            >
+                              Delete
+                            </a>
+                          )}
                         </td>
                       </tr>
                     ))}

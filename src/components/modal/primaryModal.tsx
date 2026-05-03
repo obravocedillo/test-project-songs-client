@@ -50,7 +50,7 @@ export const PrimaryModal = ({
           </button>
         </div>
 
-        <div className="px-6 py-4 min-h-100">{children}</div>
+        <div className="px-6 py-4">{children}</div>
       </div>
     </div>,
     document.body,
