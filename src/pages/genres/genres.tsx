@@ -4,16 +4,19 @@ import { SimpleTable } from "../../components/table/simpleTable";
 import {
   useDeleteGenreMutation,
   useGetGenresQuery,
+  useLazySearchGenresQuery,
 } from "../../store/services/genres";
-import type { IGenre } from "../../store/types/genres";
+import type { IGenre, IGenreSearch } from "../../store/types/genres";
 import ConfirmationModal from "../../components/modal/confirmationModal";
 import { PrimaryModal } from "../../components/modal/primaryModal";
 import { AddGenre } from "./addGenre";
+import { SearchSelect } from "../../components/select/searchSelect";
 
 export const Genres = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState<IGenre | null>(null);
+  const [trigger, { data: searchData, isLoading }] = useLazySearchGenresQuery();
 
   const { data: genresResult } = useGetGenresQuery();
   const [deleteGenre] = useDeleteGenreMutation();
@@ -52,6 +55,17 @@ export const Genres = () => {
         title="Genres"
         description="A list of all genres in the catalog."
         headerActions={headerActions()}
+        searchComponent={
+          <SearchSelect<IGenreSearch>
+            queryTrigger={trigger}
+            searchKey="name"
+            labelKey="name"
+            onChange={(artist) => console.log(artist)}
+            data={searchData?.data}
+            isLoading={isLoading}
+            fullWidth
+          />
+        }
         deleteItemOnClick={(item: IGenre) => {
           setIsDeleteModalOpen(true);
           setSelectedGenre(item);

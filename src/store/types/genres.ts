@@ -6,6 +6,10 @@ export interface IGenre {
   songs: ISong[];
 }
 
+export interface IGenreSearch {
+  name: string;
+}
+
 export interface IGenresState {
   genres: IGenre[];
 }

@@ -6,6 +6,10 @@ export interface IArtist {
   songs: ISong[];
 }
 
+export interface IArtistSearch {
+  name: string;
+}
+
 export interface IArtistsState {
   artists: IArtist[];
 }

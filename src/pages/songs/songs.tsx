@@ -2,18 +2,21 @@ import { useState } from "react";
 import { PrimaryButton } from "../../components/buttons/primaryButton";
 import { PrimaryModal } from "../../components/modal/primaryModal";
 import { SimpleTable } from "../../components/table/simpleTable";
-import type { ISong } from "../../store/types/songs";
+import type { ISong, ISongSearch } from "../../store/types/songs";
 import ConfirmationModal from "../../components/modal/confirmationModal";
 import { AddSong } from "./addSong";
 import {
   useDeleteSongMutation,
   useGetSongsQuery,
+  useLazySearchSongsQuery,
 } from "../../store/services/songs";
+import { SearchSelect } from "../../components/select/searchSelect";
 
 export const Songs = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedSong, setSelectedSong] = useState<ISong | null>(null);
+  const [trigger, { data: searchData, isLoading }] = useLazySearchSongsQuery();
 
   const { data: songsResult } = useGetSongsQuery();
   const [deleteSong] = useDeleteSongMutation();
@@ -52,6 +55,17 @@ export const Songs = () => {
         title="Songs"
         description="A list of all songs in the catalog."
         headerActions={headerActions()}
+        searchComponent={
+          <SearchSelect<ISongSearch>
+            queryTrigger={trigger}
+            searchKey="title"
+            labelKey="title"
+            onChange={(artist) => console.log(artist)}
+            data={searchData?.data}
+            isLoading={isLoading}
+            fullWidth
+          />
+        }
         deleteItemOnClick={(item: ISong) => {
           setIsDeleteModalOpen(true);
           setSelectedSong(item);

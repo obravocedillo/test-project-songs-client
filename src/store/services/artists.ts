@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { TypedResponse } from "../types/response";
-import type { IArtist } from "../types/artists";
+import type { IArtist, IArtistSearch } from "../types/artists";
 
 export const artistsApi = createApi({
   reducerPath: "artistAPI",
@@ -12,6 +12,15 @@ export const artistsApi = createApi({
     getArtists: build.query<TypedResponse<IArtist[]>, void>({
       query: () => `/artist`,
       providesTags: ["Artists"],
+    }),
+    searchArtist: build.query<
+      TypedResponse<IArtistSearch[]>,
+      { key: string; search: string }
+    >({
+      query: ({ key, search }) => ({
+        url: `/artist`,
+        params: { key, search },
+      }),
     }),
     saveArtist: build.mutation<
       TypedResponse<IArtist>,
@@ -47,6 +56,7 @@ export const artistsApi = createApi({
 
 export const {
   useGetArtistsQuery,
+  useLazySearchArtistQuery,
   useSaveArtistMutation,
   useUpdateArtistMutation,
   useDeleteArtistMutation,

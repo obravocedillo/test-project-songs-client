@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { TypedResponse } from "../types/response";
-import type { IGenre } from "../types/genres";
+import type { IGenre, IGenreSearch } from "../types/genres";
 
 export const genresApi = createApi({
   reducerPath: "genreAPI",
@@ -12,6 +12,15 @@ export const genresApi = createApi({
     getGenres: build.query<TypedResponse<IGenre[]>, void>({
       query: () => `/genre`,
       providesTags: ["Genres"],
+    }),
+    searchGenres: build.query<
+      TypedResponse<IGenreSearch[]>,
+      { key: string; search: string }
+    >({
+      query: ({ key, search }) => ({
+        url: `/genre`,
+        params: { key, search },
+      }),
     }),
     saveGenre: build.mutation<
       TypedResponse<IGenre>,
@@ -47,6 +56,7 @@ export const genresApi = createApi({
 
 export const {
   useGetGenresQuery,
+  useLazySearchGenresQuery,
   useSaveGenreMutation,
   useUpdateGenreMutation,
   useDeleteGenreMutation,

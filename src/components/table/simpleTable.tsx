@@ -5,6 +5,7 @@ interface ITableProps<T extends Record<string, any>> {
   description: string;
   data: T[];
   headerActions?: React.ReactNode;
+  searchComponent?: React.ReactNode;
   newItemOnClick?: () => void;
   editItemOnClick?: (item: T) => void;
   deleteItemOnClick?: (item: T) => void;
@@ -15,6 +16,7 @@ export const SimpleTable = <T extends Record<string, any>>({
   description,
   data = [],
   headerActions,
+  searchComponent,
   newItemOnClick,
   editItemOnClick,
   deleteItemOnClick,
@@ -59,6 +61,8 @@ export const SimpleTable = <T extends Record<string, any>>({
           {headerActions}
         </div>
       </div>
+
+      {searchComponent && <div className="mt-4">{searchComponent}</div>}
 
       {tableHeaders && data.length > 0 && (
         <div className="mt-8 flow-root">

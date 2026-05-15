@@ -5,15 +5,18 @@ import { SimpleTable } from "../../components/table/simpleTable";
 import {
   useDeleteArtistMutation,
   useGetArtistsQuery,
+  useLazySearchArtistQuery,
 } from "../../store/services/artists";
-import type { IArtist } from "../../store/types/artists";
+import type { IArtist, IArtistSearch } from "../../store/types/artists";
 import { AddArtist } from "./addArtist";
 import ConfirmationModal from "../../components/modal/confirmationModal";
+import { SearchSelect } from "../../components/select/searchSelect";
 
 export const Artist = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedArtist, setSelectedArtist] = useState<IArtist | null>(null);
+  const [trigger, { data: searchData, isLoading }] = useLazySearchArtistQuery();
 
   const { data: artistsResult } = useGetArtistsQuery();
   const [deleteArtist] = useDeleteArtistMutation();
@@ -52,6 +55,17 @@ export const Artist = () => {
         title="Artists"
         description="A list of all artists in the catalog."
         headerActions={headerActions()}
+        searchComponent={
+          <SearchSelect<IArtistSearch>
+            queryTrigger={trigger}
+            searchKey="name"
+            labelKey="name"
+            onChange={(artist) => console.log(artist)}
+            data={searchData?.data}
+            isLoading={isLoading}
+            fullWidth
+          />
+        }
         deleteItemOnClick={(item: IArtist) => {
           setIsDeleteModalOpen(true);
           setSelectedArtist(item);

@@ -10,6 +10,12 @@ export interface ISong {
   genre: IGenre;
 }
 
+export interface ISongSearch {
+  title: string;
+  artistId: number;
+  genreId: number;
+}
+
 export interface ISongsState {
   songs: ISong[];
 }

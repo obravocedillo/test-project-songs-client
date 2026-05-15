@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { ISong } from "../types/songs";
+import type { ISong, ISongSearch } from "../types/songs";
 import type { TypedResponse } from "../types/response";
 
 export const songsApi = createApi({
@@ -11,6 +11,16 @@ export const songsApi = createApi({
   endpoints: (build) => ({
     getSongs: build.query<TypedResponse<ISong[]>, void>({
       query: () => `/songs`,
+      providesTags: ["Songs"],
+    }),
+    searchSongs: build.query<
+      TypedResponse<ISongSearch[]>,
+      { key: string; search: string }
+    >({
+      query: ({ key, search }) => ({
+        url: `/songs`,
+        params: { key, search },
+      }),
       providesTags: ["Songs"],
     }),
     saveSong: build.mutation<
@@ -47,6 +57,7 @@ export const songsApi = createApi({
 
 export const {
   useGetSongsQuery,
+  useLazySearchSongsQuery,
   useSaveSongMutation,
   useUpdateSongMutation,
   useDeleteSongMutation,
