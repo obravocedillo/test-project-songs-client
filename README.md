@@ -18,6 +18,7 @@ It uses reusable generic components and RTK Query for data fetching and cache ma
   automatically refetch data after mutations
 - Render prop pattern — form fields access Formik state through a render prop, keeping 
   the form wrapper decoupled from field implementation
+- CI/CD pipeline builds a Docker image and deploys automatically to a VPS via Coolify webhook, with Cloudflare in front for security
 
 ## Project Structure
 src/
